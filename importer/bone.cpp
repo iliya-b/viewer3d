@@ -6,7 +6,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include "assimp_glm_helpers.h"
-
+#include <iostream>
 
 
     Bone::Bone(const std::string &name, int ID, const aiNodeAnim *channel)
@@ -56,6 +56,7 @@
         glm::mat4 scale = InterpolateScaling(animationTime);
         m_LocalTransform = translation * rotation * scale;
     }
+
     glm::mat4 Bone::GetLocalTransform() { return m_LocalTransform; }
     std::string Bone::GetBoneName() const { return m_Name; }
     int Bone::GetBoneID() { return m_ID; }
@@ -114,7 +115,7 @@
 
     glm::mat4 Bone::InterpolateRotation(float animationTime)
     {
-        if (1 == m_NumRotations)
+        if ( 1 == m_NumRotations)
         {
             auto rotation = glm::normalize(m_Rotations[0].orientation);
             return glm::toMat4(rotation);
