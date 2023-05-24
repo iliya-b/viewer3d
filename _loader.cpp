@@ -174,7 +174,7 @@ int main()
     }
     else
     {
-        render(600, 0.5f);
+        // render(600, 0.5f);
     }
 
     return 0;
