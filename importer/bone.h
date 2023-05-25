@@ -57,12 +57,12 @@ private:
     std::vector<KeyPosition> m_Positions;
     std::vector<KeyRotation> m_Rotations;
     std::vector<KeyScale> m_Scales;
-    int m_NumPositions;
-    int m_NumRotations;
-    int m_NumScalings;
+    int positions_count_;
+    int rotations_count_;
+    int scalings_count_;
 
-    glm::mat4 m_LocalTransform;
-    std::string m_Name;
-    int m_ID;
+    glm::mat4 local_transform_;
+    std::string name_;
+    int id_;
 };
 #endif
