@@ -40,7 +40,7 @@ public:
 
     void Update(float animationTime);
     glm::mat4 GetLocalTransform();
-    std::string GetBoneName() const;
+    const std::string & GetBoneName() const;
     int GetBoneID();
     int GetPositionIndex(float animationTime);
     int GetRotationIndex(float animationTime);

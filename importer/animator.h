@@ -17,7 +17,7 @@ public:
 
     void PlayAnimation(Animation *pAnimation);
     void CalculateTransform(const Node *node, glm::mat4 parentTransform);
-    std::vector<glm::mat4> GetTransforms();
+    const std::vector<glm::mat4>& GetTransforms();
 
 private:
     std::vector<glm::mat4> final_bone_matrices_;

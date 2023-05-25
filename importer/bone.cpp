@@ -58,7 +58,7 @@
     }
 
     glm::mat4 Bone::GetLocalTransform() { return m_LocalTransform; }
-    std::string Bone::GetBoneName() const { return m_Name; }
+    const std::string& Bone::GetBoneName() const { return m_Name; }
     int Bone::GetBoneID() { return m_ID; }
 
     int Bone::GetPositionIndex(float animationTime)

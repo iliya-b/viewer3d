@@ -13,15 +13,10 @@
 
 #include <iostream>
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void mouse_callback(GLFWwindow *window, double xpos, double ypos);
-void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
-void processInput(GLFWwindow *window);
-
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-Camera camera(glm::vec3(23.23f, -26.8f, 67.85f));
+
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -46,11 +41,6 @@ int render(int x_pos, float angle) {
     }
     glfwSetWindowPos(window, x_pos, 0);
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetScrollCallback(window, scroll_callback);
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -67,7 +57,6 @@ int render(int x_pos, float angle) {
 
     Animation anim("/Users/null_pointer/stepikcpp/crow/crow.glb", &crow);
     Animator animator(&anim);
-
     while (!glfwWindowShouldClose(window))
     {
         
@@ -75,7 +64,6 @@ int render(int x_pos, float angle) {
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        // processInput(window);
         animator.UpdateAnimation(deltaTime);
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -91,7 +79,7 @@ int render(int x_pos, float angle) {
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
 
-        auto transforms = animator.GetTransforms();
+        auto & transforms = animator.GetTransforms(); // there was a memory problem
         for (int i = 0; i < transforms.size(); ++i)
             shader.setMat4("transforms[" + std::to_string(i) + "]", transforms[i]);
 
@@ -113,53 +101,11 @@ int render(int x_pos, float angle) {
     return 0;
 }
 
-void processInput(GLFWwindow *window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, deltaTime);
-}
-
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
-
-void mouse_callback(GLFWwindow *window, double xposIn, double yposIn)
-{
-    float xpos = static_cast<float>(xposIn);
-    float ypos = static_cast<float>(yposIn);
-
-    if (firstMouse) {
-        lastX = xpos;
-        lastY = ypos;
-        firstMouse = false;
-    }
-
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos; 
-    
-    lastX = xpos;
-    lastY = ypos;
-
-    camera.ProcessMouseMovement(xoffset, yoffset);
-}
-
-
-void scroll_callback(GLFWwindow *window, double xoffset, double yoffset){
-    camera.ProcessMouseScroll(static_cast<float>(yoffset));
-}
 
 int main()
-{
+{   
+
 
     pid_t c_pid = fork();
 
@@ -174,7 +120,7 @@ int main()
     }
     else
     {
-        // render(600, 0.5f);
+        render(600, 0.5f);
     }
 
     return 0;

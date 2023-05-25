@@ -41,34 +41,28 @@ Animator::Animator(Animation *animation)
         std::string node_name = node->name;
         glm::mat4 node_transform = node->transformation;
 
-        // Bone *bone = current_animation_->FindBone(node_name);
+        Bone *bone = current_animation_->FindBone(node_name);  // there was a memory problem
 
 
-        for(Bone & bone : current_animation_ -> bones_){
-            if(bone.GetBoneName() == node_name){
-                    bone.Update(current_time_);
-                    node_transform = bone.GetLocalTransform();
-                    break;
-            }
+        if (bone)  {
+            bone->Update(current_time_);
+            node_transform = bone->GetLocalTransform();
         }
 
-
-        // glm::mat4 globalTransformation = parent_transform * node_transform;
         glm::mat4 globalTransformation = parent_transform  * node_transform ;
 
-        // auto bone_info_map = current_animation_->GetBoneIDMap(); // memory problem
-        if (current_animation_->bone_info_map_.find(node_name) != current_animation_->bone_info_map_.end()) {
-            int index = current_animation_->bone_info_map_[node_name].id;
-            glm::mat4 offset = current_animation_->bone_info_map_[node_name].offset;
+        auto& bone_info_map = current_animation_->GetBoneIDMap(); // there was a memory problem
+        if (bone_info_map.find(node_name) != bone_info_map.end()) {
+            int index = bone_info_map.at(node_name).id;
+            glm::mat4 offset = bone_info_map.at(node_name).offset;
             final_bone_matrices_[index] = globalTransformation * offset;
-            std::cout << "i " << sizeof(final_bone_matrices_[index]) << std::endl;
         }
 
         for (int i = 0; i < node->children_count; i++)
             CalculateTransform(&node->children[i], globalTransformation);
     }
 
-    std::vector<glm::mat4> Animator::GetTransforms()
+    const std::vector<glm::mat4> & Animator::GetTransforms()
     {
         return final_bone_matrices_;
     }
