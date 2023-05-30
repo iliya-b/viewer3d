@@ -13,7 +13,7 @@
 
 #include <iostream>
 
-const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_WIDTH = 1100;
 const unsigned int SCR_HEIGHT = 600;
 
 
@@ -86,7 +86,12 @@ int render(int x_pos, float angle) {
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-        model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        shader.setMat4("model", model);
+        crow.Draw(shader);
+        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+
         shader.setMat4("model", model);
         crow.Draw(shader);
 
@@ -105,23 +110,6 @@ int render(int x_pos, float angle) {
 
 int main()
 {   
-
-
-    pid_t c_pid = fork();
-
-    if (c_pid == -1)
-    {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-    else if (c_pid > 0)
-    {
-        render(0 ,0.0f);
-    }
-    else
-    {
-        render(600, 0.5f);
-    }
-
+    render(600, 0.5f);
     return 0;
 }
