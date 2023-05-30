@@ -89,7 +89,7 @@ int render(int x_pos, float angle) {
         model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
         shader.setMat4("model", model);
         crow.Draw(shader);
-        model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(5.0f, 0.0f, 0.0f));
         model = glm::rotate(model, 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
 
         shader.setMat4("model", model);
@@ -110,6 +110,6 @@ int render(int x_pos, float angle) {
 
 int main()
 {   
-    render(600, 0.5f);
+    render(100, 0.5f);
     return 0;
 }
