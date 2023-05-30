@@ -54,9 +54,9 @@ private:
 
 
 
-    std::vector<KeyPosition> m_Positions;
-    std::vector<KeyRotation> m_Rotations;
-    std::vector<KeyScale> m_Scales;
+    std::vector<KeyPosition> positions_;
+    std::vector<KeyRotation> rotations_;
+    std::vector<KeyScale> scales_;
     int positions_count_;
     int rotations_count_;
     int scalings_count_;
