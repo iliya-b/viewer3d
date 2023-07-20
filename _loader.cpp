@@ -51,11 +51,11 @@ int render(int x_pos, float angle) {
     glEnable(GL_DEPTH_TEST);
 
     Shader shader("model_anim/model_anim.vs", "model_anim/model_anim.fs");
-    Scene crow("/Users/null_pointer/stepikcpp/crow/crow.glb");
+    Scene crow("./crow/crow.glb");
 
 
 
-    Animation anim("/Users/null_pointer/stepikcpp/crow/crow.glb", &crow);
+    Animation anim("./crow/crow.glb", &crow);
     Animator animator(&anim);
     while (!glfwWindowShouldClose(window))
     {
